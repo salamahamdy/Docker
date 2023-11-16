@@ -1,5 +1,5 @@
 # Use Ubuntu as the base image
-FROM ubuntu:latest as stage1
+FROM ubuntu:latest as stage-1
 
 # Set the working directory in the container
 WORKDIR /app
@@ -17,9 +17,10 @@ RUN pip3 install -r requirements.txt
 # Expose the port on which the app will run
 EXPOSE 5000
 
-FROM scratch
+#new stage by using samll image for using flask with python 
+FROM python:3-slim as stage-2
 
-COPY --from=stage1 requirements.txt /app
-
+#copy binary files from stage-1
+COPY --from=stage-1 /app /app
 # Command to run the application
 CMD ["python3", "routes.py"]
