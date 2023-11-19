@@ -1,26 +1,21 @@
-# Use Ubuntu as the base image
-FROM ubuntu:latest as stage-1
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set the working directory to /app
 WORKDIR /app
 
-# Install necessary dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip install --upgrade setuptools
+# Copy the current directory contents into the container at /app
+COPY . .
 
-# Copy the application code to the container
-COPY . /app
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Python dependencies
-RUN pip3 install -r requirements.txt
-
-# Expose the port on which the app will run
+# Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-#new stage by using samll image for using flask with python 
-FROM python:3-slim as stage-2
+# Define environment variable
+ENV NAME World
 
-#copy binary files from stage-1
-COPY --from=stage-1 /app /app
-# Command to run the application
+# Run app.py when the container launches
 CMD ["python3", "routes.py"]
+
