@@ -16,4 +16,4 @@ run apt-get update && apt-get install -y \
     workdir /Data
     run apt install nginx -y
     cmd ["nginx", "-g", "daemon off;"]
-
+    COPY index.html /var/www/html/index.html
