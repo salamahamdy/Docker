@@ -15,5 +15,5 @@ run apt-get update && apt-get install -y \
     run mkdir /Data
     workdir /Data
     run apt install nginx -y
-    cmd ["nginx", "-g"]
+    cmd ["nginx", "-g", "daemon off;"]
 
